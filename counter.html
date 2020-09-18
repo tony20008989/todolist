@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <style>
+      .btn {
+        align-items : center;
+        justify-content : center;
+      }
+      #number{
+        font-size=7
+      }
+      .disabled{
+        background-color:#faa;
+      }
+    </style>  
+  </head>
+  <body>
+    <div>
+      <button class="btn-m">-</button>
+      <textarea cols=4 rows=1 id="number">0</textarea>
+      <button class="btn">+</button>
+    <div>
+    <script>
+    $('.btn').click(function(){
+      if ($('#number').text() < 9) {
+      var num = $('#number').text()
+      var minumber = parseInt(num)+1
+      $('#number').text(minumber)
+      $("#number").removeClass("disabled")
+    } else if ($('#number').text() == 9) {
+      var num = $('#number').text()
+      var minumber = parseInt(num)+1
+      $('#number').text(minumber)
+      $("#number").addClass("disabled")
+    } else {
+      $("#number").addClass("disabled")
+    }})
+
+    $('.btn-m').click(function () {
+      if ($('#number').text() > 1) {
+      var num = $('#number').text()
+      var addnumber = parseInt(num)-1
+      $('#number').text(addnumber)
+      $("#number").removeClass("disabled")
+    } else if($('#number').text() == 1){
+      var num = $('#number').text()
+      var addnumber = parseInt(num)-1
+      $('#number').text(addnumber)
+      $("#number").addClass("disabled");
+    } else {
+      $("#number").addClass("disabled")
+    }})
+    </script>  
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <style>
+      .title {
+      font-size:40px;
+      }
+
+      #content{
+      font-family:DFKai-sb;
+      }
+
+      .list{
+      font-family:DFKai-sb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">
+      To do list
+    </div>
+    <input type="text" class="content">
+    <button class="btn">輸入</button>
+    <ul class='list'>
+      <li>洗衣(example)<button class='modify'>修改</button><button class='delete'>刪除</button></li>
+    <ul/>
+    <script>
+      $('.btn').click(function(){
+      var thing =$('.content').val()
+      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>')
+      $('.content').val('')});
+
+      $(".content").keydown(function(event) {
+      if(event.keyCode == 13){
+      var thing =$('.content').val()
+      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>')
+      $('.content').val('')}
+      });
+
+      $('.list').on('click','.delete',function(){
+      $(this).parent().remove();
+      });
+
+      $(".content1").keydown(function(event) {
+      if(event.keyCode == 13){
+      var thing =$('.content').val()
+      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>')
+      $('.content').val('')}
+      });
+
+      $('.list').on('click','.modify',function(){
+      var storage = $(this).parent().text();
+      var things=storage.substring(0,storage.length-4);
+      $(this).parent().html('<input type="text" class="content1" value="'+things +'"><button class="btn1">輸入</button>')
+      });
+
+      $('body').on('click','.btn1',function() {
+      var thing =$('.content1').val();
+      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>');
+      $('.content1').parent().remove();
+      });
+    </script>
+  </body>
+</html>
