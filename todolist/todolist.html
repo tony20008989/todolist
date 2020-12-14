@@ -2,15 +2,19 @@
   <head>
     <style>
       .title {
-      font-size:40px;
+        font-size:40px;
       }
 
       #content{
-      font-family:DFKai-sb;
+        font-family:DFKai-sb;
       }
 
       .list{
-      font-family:DFKai-sb;
+        font-family:DFKai-sb;
+      }
+
+      .display{
+        display:none
       }
     </style>
   </head>
@@ -18,46 +22,67 @@
     <div class="title">
       To do list
     </div>
-    <input type="text" class="content">
-    <button class="btn">輸入</button>
-    <ul class='list'>
-      <li>洗衣(example)<button class='modify'>修改</button><button class='delete'>刪除</button></li>
-    <ul/>
+    <div  id='todo'>
+      <input v-model="newAddText" placeholder="新增事件" />
+      <button @click='addNewList'>輸入</button>
+      <ul>
+        <li v-for='(list,index) in lists'>
+          {{list.title}}  
+          <button v-on:click='removeList(index)'>删除</button>
+          <button v-on:click='changeList(index)'>更改</button>
+        </li>
+      </ul>
+      <input v-model="newModifyText"  v-bind:class = "{display: isActive}" placeholder="更改事件"/>
+      <button @click='modifyList' v-bind:class = "{display: isActive}">輸入</button>
+    </div> 
+    <script src ='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
     <script>
-      $('.btn').click(function(){
-      var thing =$('.content').val()
-      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>')
-      $('.content').val('')});
+      var todo = new Vue({
+        el:'#todo',
+        data:{
+          newAddText:'',
+          newModifyText:'',
+          lists:[{title:'run'},
+                {title:'shopping'},
+                {title:'swim'},
+                {title:'dance'},
+              ],
+          isActive:true,
+          temIndex:'',
+          temValue:'',
+        },
+        
+        methods:{
+          addNewList:function(){
+            this.lists.push({
+              title:this.newAddText
+            })
+            this.newAddText=''
+          },
+          removeList:function(index){
+            this.lists.splice(index,1);
+          },
+          changeList:function(index){
+            this.temIndex = index;
+            this.temValue = this.lists[index].title;
+            this.isActive = false;
+            this.lists.splice(index,1);
+          },
+          modifyList:function(){
+            if(this.newModifyText==''){
+              this.lists.push({
+              title:this.temValue
+            })}
+            else{
+              this.lists.push({
+              title:this.newModifyText
+            })};
+            this.newModifyText = ''
+            this.isActive = true;
+          }}
+      })
 
-      $(".content").keydown(function(event) {
-      if(event.keyCode == 13){
-      var thing =$('.content').val()
-      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>')
-      $('.content').val('')}
-      });
 
-      $('.list').on('click','.delete',function(){
-      $(this).parent().remove();
-      });
-
-      $(".content1").keydown(function(event) {
-      if(event.keyCode == 13){
-      var thing =$('.content').val()
-      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>')
-      $('.content').val('')}
-      });
-
-      $('.list').on('click','.modify',function(){
-      var storage = $(this).parent().text();
-      var things=storage.substring(0,storage.length-4);
-      $(this).parent().html('<input type="text" class="content1" value="'+things +'"><button class="btn1">輸入</button>')
-      });
-
-      $('body').on('click','.btn1',function() {
-      var thing =$('.content1').val();
-      $('.list').append('<li>'+thing+'<button class="modify">修改</button><button class="delete">刪除</button></li>');
-      $('.content1').parent().remove();
-      });
     </script>
   </body>
 </html>
